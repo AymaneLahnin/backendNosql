@@ -1,28 +1,28 @@
 package org.examnosql.backendlib.models;
+
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Node
 public class Author {
+
     @Id
     @GeneratedValue
     private Long id;
+
     private String nom;
     private String prenom;
     private String dateNaissance;
 
+    @Relationship(type = "WROTE_BY", direction = Relationship.Direction.INCOMING)
+    private Set<BookNode> bookNodes = new HashSet<>();
 
-
-    // Constructors, getters, and setters
-    public Author() {
-    }
-
-    public Author(String nom, String prenom, String dateNaissance) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.dateNaissance = dateNaissance;
-    }
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -48,11 +48,19 @@ public class Author {
         this.prenom = prenom;
     }
 
-    public String getdateNaissance() {
+    public String getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setdateNaissance(String dateNaissance) {
+    public void setDateNaissance(String dateNaissance) {
         this.dateNaissance = dateNaissance;
+    }
+
+    public Set<BookNode> getBooks() {
+        return bookNodes;
+    }
+
+    public void setBooks(Set<BookNode> bookNodes) {
+        this.bookNodes = bookNodes;
     }
 }
